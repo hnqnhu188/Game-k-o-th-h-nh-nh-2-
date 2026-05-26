@@ -7,9 +7,8 @@
     <style>
         .draggable { cursor: grab; padding: 10px 20px; background: #3b82f6; color: white; border-radius: 9999px; margin: 5px; display: inline-block; font-weight: 600; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: opacity 0.3s; user-select: none; }
         .drop-zone-container { position: relative; }
-        /* Vùng nhận kéo thả (trong suốt và đè lên hành động) */
-        .drop-target { position: absolute; width: 60px; height: 60px; z-index: 20; cursor: pointer; }
-        /* Số ẩn đi ban đầu */
+        /* Đảm bảo vùng nhận kéo thả nhận diện được chuột */
+        .drop-target { position: absolute; width: 60px; height: 60px; z-index: 20; cursor: pointer; pointer-events: auto; }
         .number-tag { position: absolute; width: 40px; height: 40px; background: #ef4444; color: white; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; z-index: 10; border: 2px solid white; pointer-events: none; }
         .circle-marker { position: absolute; width: 60px; height: 60px; border: 4px solid red; border-radius: 50%; pointer-events: none; animation: pop 0.5s ease-out; z-index: 5; }
         @keyframes pop { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
@@ -66,7 +65,11 @@
             const wordId = ev.dataTransfer.getData("text");
             const draggedElement = document.getElementById(wordId);
             const draggedId = draggedElement.getAttribute('data-id');
-            const target = ev.target;
+            
+            // Tìm phần tử mục tiêu ngay cả khi kéo thả vào phần tử con
+            const target = ev.target.closest('.drop-target');
+            if (!target) return;
+            
             const targetId = target.getAttribute('data-id');
 
             if (targetId === draggedId) {
