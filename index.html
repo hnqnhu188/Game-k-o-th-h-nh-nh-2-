@@ -5,8 +5,9 @@
     <title>Green Living Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .draggable { cursor: grab; padding: 10px 20px; background: #3b82f6; color: white; border-radius: 9999px; margin: 5px; display: inline-block; }
-        .drop-zone { border: 3px dashed #3b82f6; border-radius: 10px; min-height: 300px; display: flex; align-items: center; justify-content: center; background: #f8fafc; }
+        .draggable { cursor: grab; padding: 10px 20px; background: #3b82f6; color: white; border-radius: 9999px; margin: 5px; display: inline-block; transition: transform 0.2s; }
+        .draggable:hover { transform: scale(1.05); }
+        .drop-zone { border: 3px dashed #3b82f6; border-radius: 10px; min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; padding: 10px; }
     </style>
 </head>
 <body class="bg-gray-100 p-6">
@@ -14,25 +15,25 @@
     <div class="max-w-6xl mx-auto">
         <h1 class="text-3xl font-bold text-center mb-6 text-green-700">Green Living Challenge</h1>
         
-        <div class="flex flex-wrap justify-center gap-3 mb-8 bg-white p-6 rounded-xl shadow-md">
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w1">Ride a bike</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w2">Carry a reusable bag</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w3">Plan your meals</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w4">Recycle glass bottles and cans</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w5">Hang your clothes to dry</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w6">Plant trees</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w7">Plant flowers</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w8">Go to neighborhood meetings</div>
+        <div id="word-list" class="flex flex-wrap justify-center gap-3 mb-8 bg-white p-6 rounded-xl shadow-md">
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w1" data-target="zone1">Ride a bike</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w2" data-target="zone1">Carry a reusable bag</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w3" data-target="zone1">Plan your meals</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w4" data-target="zone1">Recycle glass bottles and cans</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w5" data-target="zone1">Hang your clothes to dry</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w6" data-target="zone2">Plant trees</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w7" data-target="zone2">Plant flowers</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w8" data-target="zone2">Go to neighborhood meetings</div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <img src="anh1.png" alt="Ảnh 1" class="max-h-96" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                <p class="hidden text-gray-400">Vui lòng tải ảnh "anh1.png" vào thư mục</p>
+            <div class="drop-zone" id="zone1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <img src="anh1.png" alt="Ảnh 1" class="max-h-80 mb-2">
+                <span class="text-sm text-gray-500">Kéo từ vựng đúng vào đây</span>
             </div>
-            <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <img src="anh2.png" alt="Ảnh 2" class="max-h-96" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                <p class="hidden text-gray-400">Vui lòng tải ảnh "anh2.png" vào thư mục</p>
+            <div class="drop-zone" id="zone2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <img src="anh2.png" alt="Ảnh 2" class="max-h-80 mb-2">
+                <span class="text-sm text-gray-500">Kéo từ vựng đúng vào đây</span>
             </div>
         </div>
     </div>
@@ -44,8 +45,14 @@
             ev.preventDefault();
             const data = ev.dataTransfer.getData("text");
             const draggedElement = document.getElementById(data);
-            ev.target.closest('.drop-zone').appendChild(draggedElement);
-            alert("Đã di chuyển thành công!");
+            const targetZone = ev.target.closest('.drop-zone');
+            
+            if (draggedElement.getAttribute('data-target') === targetZone.id) {
+                targetZone.appendChild(draggedElement);
+                alert("Chính xác! Bạn đã chọn đúng.");
+            } else {
+                alert("Sai rồi! Hãy thử lại nhé.");
+            }
         }
     </script>
 </body>
