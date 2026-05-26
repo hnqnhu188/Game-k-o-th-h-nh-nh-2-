@@ -5,10 +5,12 @@
     <title>Green Living Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .draggable { cursor: grab; padding: 12px 24px; background: #3b82f6; color: white; border-radius: 9999px; margin: 6px; display: inline-block; transition: transform 0.2s; font-weight: 600; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        .draggable:hover { transform: scale(1.05); }
-        .drop-zone { border: 3px dashed #3b82f6; border-radius: 20px; min-height: 500px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: #f8fafc; padding: 20px; transition: all 0.3s; position: relative; }
-        .highlight-circle { border: 5px solid #22c55e !important; background-color: #f0fdf4 !important; transition: all 0.5s; }
+        .draggable { cursor: grab; padding: 10px 20px; background: #3b82f6; color: white; border-radius: 9999px; margin: 5px; display: inline-block; font-weight: 600; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        .drop-zone { position: relative; border: 3px dashed #3b82f6; border-radius: 20px; background: #f8fafc; padding: 15px; }
+        /* Số ẩn đi ban đầu */
+        .number-tag { position: absolute; width: 30px; height: 30px; background: red; color: white; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; z-index: 10; border: 2px solid white; }
+        .circle-marker { position: absolute; width: 60px; height: 60px; border: 4px solid red; border-radius: 50%; pointer-events: none; animation: pop 0.5s ease-out; }
+        @keyframes pop { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body class="bg-gray-100 p-6">
@@ -16,25 +18,31 @@
     <div class="max-w-7xl mx-auto">
         <h1 class="text-4xl font-bold text-center mb-8 text-green-700">Green Living Challenge</h1>
         
-        <div id="word-list" class="flex flex-wrap justify-center gap-3 mb-10 bg-white p-8 rounded-2xl shadow-lg border-t-4 border-green-500">
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w1" data-target="zone1">Ride a bike</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w2" data-target="zone1">Carry a reusable bag</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w3" data-target="zone1">Plan your meals</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w4" data-target="zone1">Recycle glass bottles and cans</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w5" data-target="zone1">Hang your clothes to dry</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w6" data-target="zone2">Plant trees</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w7" data-target="zone2">Plant flowers</div>
-            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w8" data-target="zone2">Go to neighborhood meetings</div>
+        <div class="flex flex-wrap justify-center gap-3 mb-10 bg-white p-6 rounded-2xl shadow-md border-t-4 border-green-500">
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w1" data-id="1">1. Ride a bike</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w2" data-id="2">2. Carry a reusable bag</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w3" data-id="3">3. Plan your meals</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w4" data-id="4">4. Recycle glass bottles and cans</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w5" data-id="5">5. Hang your clothes to dry</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w6" data-id="6">6. Plant trees</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w7" data-id="7">7. Plant flowers</div>
+            <div draggable="true" class="draggable" ondragstart="drag(event)" id="w8" data-id="8">8. Go to neighborhood meetings</div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div class="drop-zone" id="zone1" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <img src="anh1.png" alt="Ảnh 1" class="w-full h-auto mb-4 rounded-lg shadow-md">
-                <span class="text-gray-500 font-medium">Kéo từ vựng phù hợp vào đây</span>
+            <div class="drop-zone" id="zone1">
+                <img src="anh1.png" alt="Ảnh 1" class="w-full h-auto rounded-lg">
+                <div class="number-tag" id="tag1" style="top: 65%; left: 65%">1</div>
+                <div class="number-tag" id="tag2" style="top: 70%; left: 30%">2</div>
+                <div class="number-tag" id="tag3" style="top: 60%; left: 15%">3</div>
+                <div class="number-tag" id="tag4" style="top: 55%; left: 40%">4</div>
+                <div class="number-tag" id="tag5" style="top: 35%; left: 20%">5</div>
             </div>
-            <div class="drop-zone" id="zone2" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <img src="anh2.png" alt="Ảnh 2" class="w-full h-auto mb-4 rounded-lg shadow-md">
-                <span class="text-gray-500 font-medium">Kéo từ vựng phù hợp vào đây</span>
+            <div class="drop-zone" id="zone2">
+                <img src="anh2.png" alt="Ảnh 2" class="w-full h-auto rounded-lg">
+                <div class="number-tag" id="tag6" style="top: 85%; left: 55%">6</div>
+                <div class="number-tag" id="tag7" style="top: 80%; left: 85%">7</div>
+                <div class="number-tag" id="tag8" style="top: 15%; left: 65%">8</div>
             </div>
         </div>
     </div>
@@ -42,17 +50,30 @@
     <script>
         function allowDrop(ev) { ev.preventDefault(); }
         function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+        // Cập nhật sự kiện thả vào thẻ số thay vì vùng chứa
+        document.querySelectorAll('.number-tag').forEach(tag => {
+            tag.ondragover = allowDrop;
+            tag.ondrop = drop;
+        });
+
         function drop(ev) {
             ev.preventDefault();
-            const data = ev.dataTransfer.getData("text");
-            const draggedElement = document.getElementById(data);
-            const targetZone = ev.target.closest('.drop-zone');
+            const wordId = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(wordId);
+            const targetId = ev.target.getAttribute('data-id');
             
-            if (draggedElement.getAttribute('data-target') === targetZone.id) {
-                targetZone.appendChild(draggedElement);
-                // Thêm hiệu ứng khoanh tròn/nổi bật
-                targetZone.classList.add('highlight-circle');
-                setTimeout(() => targetZone.classList.remove('highlight-circle'), 2000);
+            if (draggedElement.getAttribute('data-id') === targetId) {
+                // Hiện số và vòng tròn
+                ev.target.style.display = 'flex';
+                const marker = document.createElement('div');
+                marker.className = 'circle-marker';
+                marker.style.left = (ev.target.offsetLeft - 15) + 'px';
+                marker.style.top = (ev.target.offsetTop - 15) + 'px';
+                ev.target.parentElement.appendChild(marker);
+                
+                draggedElement.style.opacity = '0.3';
+                draggedElement.setAttribute('draggable', 'false');
+                setTimeout(() => marker.remove(), 2000);
             } else {
                 alert("Sai rồi! Hãy thử lại nhé.");
             }
