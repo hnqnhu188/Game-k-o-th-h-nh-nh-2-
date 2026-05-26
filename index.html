@@ -5,17 +5,18 @@
     <title>Green Living Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .draggable { cursor: grab; padding: 10px 20px; background: #3b82f6; color: white; border-radius: 9999px; margin: 5px; display: inline-block; transition: transform 0.2s; }
+        .draggable { cursor: grab; padding: 12px 24px; background: #3b82f6; color: white; border-radius: 9999px; margin: 6px; display: inline-block; transition: transform 0.2s; font-weight: 600; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
         .draggable:hover { transform: scale(1.05); }
-        .drop-zone { border: 3px dashed #3b82f6; border-radius: 10px; min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; padding: 10px; }
+        .drop-zone { border: 3px dashed #3b82f6; border-radius: 20px; min-height: 500px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: #f8fafc; padding: 20px; transition: all 0.3s; position: relative; }
+        .highlight-circle { border: 5px solid #22c55e !important; background-color: #f0fdf4 !important; transition: all 0.5s; }
     </style>
 </head>
 <body class="bg-gray-100 p-6">
 
-    <div class="max-w-6xl mx-auto">
-        <h1 class="text-3xl font-bold text-center mb-6 text-green-700">Green Living Challenge</h1>
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold text-center mb-8 text-green-700">Green Living Challenge</h1>
         
-        <div id="word-list" class="flex flex-wrap justify-center gap-3 mb-8 bg-white p-6 rounded-xl shadow-md">
+        <div id="word-list" class="flex flex-wrap justify-center gap-3 mb-10 bg-white p-8 rounded-2xl shadow-lg border-t-4 border-green-500">
             <div draggable="true" class="draggable" ondragstart="drag(event)" id="w1" data-target="zone1">Ride a bike</div>
             <div draggable="true" class="draggable" ondragstart="drag(event)" id="w2" data-target="zone1">Carry a reusable bag</div>
             <div draggable="true" class="draggable" ondragstart="drag(event)" id="w3" data-target="zone1">Plan your meals</div>
@@ -26,14 +27,14 @@
             <div draggable="true" class="draggable" ondragstart="drag(event)" id="w8" data-target="zone2">Go to neighborhood meetings</div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div class="drop-zone" id="zone1" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <img src="anh1.png" alt="Ảnh 1" class="max-h-80 mb-2">
-                <span class="text-sm text-gray-500">Kéo từ vựng đúng vào đây</span>
+                <img src="anh1.png" alt="Ảnh 1" class="w-full h-auto mb-4 rounded-lg shadow-md">
+                <span class="text-gray-500 font-medium">Kéo từ vựng phù hợp vào đây</span>
             </div>
             <div class="drop-zone" id="zone2" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <img src="anh2.png" alt="Ảnh 2" class="max-h-80 mb-2">
-                <span class="text-sm text-gray-500">Kéo từ vựng đúng vào đây</span>
+                <img src="anh2.png" alt="Ảnh 2" class="w-full h-auto mb-4 rounded-lg shadow-md">
+                <span class="text-gray-500 font-medium">Kéo từ vựng phù hợp vào đây</span>
             </div>
         </div>
     </div>
@@ -49,7 +50,9 @@
             
             if (draggedElement.getAttribute('data-target') === targetZone.id) {
                 targetZone.appendChild(draggedElement);
-                alert("Chính xác! Bạn đã chọn đúng.");
+                // Thêm hiệu ứng khoanh tròn/nổi bật
+                targetZone.classList.add('highlight-circle');
+                setTimeout(() => targetZone.classList.remove('highlight-circle'), 2000);
             } else {
                 alert("Sai rồi! Hãy thử lại nhé.");
             }
